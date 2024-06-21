@@ -1,0 +1,38 @@
+{
+    "manifest_version": 3,
+    "name": "NEXT-CHROME-STARTER",
+    "version": "0.0.1",
+    "description": "Chrome Extension Starter",
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "index.html"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://*/*",
+                "http://*/*"
+            ],
+            "js": [
+                "inject.js"
+            ]
+        }
+    ],
+    "permissions": [
+        "activeTab",
+        "bookmarks",
+        "webRequest"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "action": {
+        "default_popup": "index.html"
+    }
+}
