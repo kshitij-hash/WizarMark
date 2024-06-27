@@ -40,7 +40,7 @@ function addBookmark() {
     const bookmark = {
         url: url,
         title: title,
-        faviconUrl: "https://cdn.oaistatic.com/_next/static/media/favicon-32x32.630a2b99.png"
+        faviconUrl: favicon
     };
 
     let bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
