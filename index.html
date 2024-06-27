@@ -9,9 +9,13 @@
 </head>
 
 <body>
-    <h1>Bookmark</h1>
-    <input type="text" id="urlInput" placeholder="Enter website URL">
-    <button id="add_bookmark">Add Bookmark</button>
+    <h1>wizarmark</h1>
+    <form id="bookmarkForm">
+        <input type="text" id="title" placeholder="enter title" required>
+        <input type="text" id="urlInput" placeholder="enter website url" required>
+        <input type="hidden" id="favicon">
+        <button type="submit" id="add_bookmark">add bookmark</button>
+    </form>
     <ul id="bookmarkList"></ul>
     <script src="index.js"></script>
 </body>
