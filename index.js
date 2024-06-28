@@ -95,7 +95,7 @@ function showBookmarks() {
         listItem.appendChild(div2);
 
         bookmarkList.appendChild(listItem);
-        bookmarkList.appendChild(document.createElement("hr"));
+        // bookmarkList.appendChild(document.createElement("hr"));
     }
 }
 
