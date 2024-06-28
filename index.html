@@ -6,15 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bookmarked Extension</title>
     <link rel="stylesheet" href="index.css">
+    <!-- FONT STYLISH -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Stylish&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <h1>wizarmark</h1>
+    <div id="wizarmark">
+        <img src="" alt="wizarmark icon" id="logo">
+        <h1>WizarMark</h1>
+    </div>
     <form id="bookmarkForm">
         <input type="text" id="title" placeholder="enter title" required>
         <input type="text" id="urlInput" placeholder="enter website url" required>
         <input type="hidden" id="favicon">
-        <button type="submit" id="add_bookmark">add bookmark</button>
+        <button type="submit" id="add_bookmark">Add Bookmark</button>
     </form>
     <ul id="bookmarkList"></ul>
     <script src="index.js"></script>
