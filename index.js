@@ -6,6 +6,10 @@ document.getElementById('fetch_bookmarks').addEventListener('click', () => {
     getBookMarks();
 })
 
+document.getElementsByClassName("material-symbols-outlined")[0].addEventListener('click', () => {
+    window.close();
+})
+
 function getFavicon(url) {
     return `https://www.google.com/s2/favicons?domain=${url}`;
 }
@@ -14,12 +18,12 @@ const getBookMarks = async () => {
     const bookmarkTree = await chrome.bookmarks.getTree();
     const children = bookmarkTree[0].children;
     const BOOKMARKS = []
-    
+
     for (const child of children) {
-        if(child.children.length > 0) {
+        if (child.children.length > 0) {
             for (const bookmark of child.children) {
-                if(bookmark.url === undefined) {
-                    if(bookmark.children.length > 0) {
+                if (bookmark.url === undefined) {
+                    if (bookmark.children.length > 0) {
                         for (const subBookmark of bookmark.children) {
                             const domain = new URL(subBookmark.url).hostname;
                             const favicon = getFavicon(domain)
@@ -49,7 +53,7 @@ const getBookMarks = async () => {
     showBookmarks();
 }
 
-document.addEventListener('DOMContentLoaded', () => {    
+document.addEventListener('DOMContentLoaded', () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const activeTab = tabs[0];
         const activeTabUrl = activeTab.url;
@@ -103,9 +107,14 @@ function addBookmark() {
 function showBookmarks() {
     const bookmarkList = document.getElementById("bookmarkList");
 
-    bookmarkList.innerHTML = "";
-
     const bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+
+    if (bookmarks.length === 0) {
+        bookmarkList.innerHTML = "no bookmarks added yet...";
+        return;
+    } else {
+        bookmarkList.innerHTML = "";
+    }
 
     for (const bookmark of bookmarks) {
         const listItem = createBookmarkListItem(bookmark);
@@ -136,15 +145,9 @@ function createBookmarkListItem(bookmark) {
 
     const div2 = document.createElement("div");
     div2.classList.add("bookmark-actions");
-    const editIcon = document.createElement('button')
-    editIcon.textContent = "Edit";
-    // editIcon.onclick = () => {
-    //     handleEdit(bookmark.url)
-    // }
-    div2.appendChild(editIcon);
 
     const deleteIcon = document.createElement('button')
-    deleteIcon.textContent = "Delete";
+    deleteIcon.innerHTML =  `<span class="material-symbols-outlined">delete</span>`;
     deleteIcon.onclick = () => {
         handleDelete(bookmark.url)
     }
@@ -163,45 +166,5 @@ function handleDelete(url) {
 
     showBookmarks();
 }
-
-// function handleEdit(url) {
-//     let bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
-
-//     const bookmark = bookmarks.find(bookmark => bookmark.url === url);
-
-//     document.getElementById('urlInput').value = bookmark.url;
-//     document.getElementById('title').value = bookmark.title;
-//     document.getElementById('add_bookmark').textContent = "Update";
-
-//     document.getElementById('add_bookmark').addEventListener('click', () => {
-//         updateBookmark(url)
-//         document.getElementById('add_bookmark').removeEventListener('click', updateBookmark)
-//     })
-// }
-
-// function updateBookmark(url) {
-//     const newUrl = document.getElementById("urlInput").value;
-//     const newTitle = document.getElementById('title').value;
-
-//     if(newUrl === "" || newTitle === "") {
-//         alert("Please fill all the fields");
-//         return;
-//     }
-
-//     let bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
-
-//     const bookmark = bookmarks.find(bookmark => bookmark.url === url);
-
-//     bookmark.url = newUrl;
-//     bookmark.title = newTitle;
-
-//     localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
-
-//     document.getElementById('urlInput').value = "";
-//     document.getElementById('title').value = "";
-//     document.getElementById('add_bookmark').textContent = "Add Bookmark";
-
-//     showBookmarks();
-// }
 
 showBookmarks();
