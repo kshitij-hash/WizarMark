@@ -110,7 +110,7 @@ function showBookmarks() {
     for (const bookmark of bookmarks) {
         const listItem = createBookmarkListItem(bookmark);
         bookmarkList.appendChild(listItem);
-        bookmarkList.appendChild(document.createElement("hr"));
+        // bookmarkList.appendChild(document.createElement("hr"));
     }
 }
 
