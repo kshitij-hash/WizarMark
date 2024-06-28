@@ -2,11 +2,56 @@ document.getElementById('bookmarkForm').addEventListener('submit', (e) => {
     e.preventDefault();
     addBookmark();
 });
+document.getElementById('fetch_bookmarks').addEventListener('click', () => {
+    getBookMarks();
+})
 
-document.addEventListener('DOMContentLoaded', () => {
+function getFavicon(url) {
+    return `https://www.google.com/s2/favicons?domain=${url}`;
+}
+
+const getBookMarks = async () => {
+    const bookmarkTree = await chrome.bookmarks.getTree();
+    const children = bookmarkTree[0].children;
+    const BOOKMARKS = []
+    
+    for (const child of children) {
+        if(child.children.length > 0) {
+            for (const bookmark of child.children) {
+                if(bookmark.url === undefined) {
+                    if(bookmark.children.length > 0) {
+                        for (const subBookmark of bookmark.children) {
+                            const domain = new URL(subBookmark.url).hostname;
+                            const favicon = getFavicon(domain)
+                            const bookmarkItem = {
+                                url: subBookmark.url,
+                                title: subBookmark.title.toLowerCase(),
+                                faviconUrl: favicon
+                            }
+                            BOOKMARKS.push(bookmarkItem)
+                        }
+                    }
+                }
+                else {
+                    const domain = new URL(bookmark.url).hostname;
+                    const favicon = getFavicon(domain)
+                    const bookmarkItem = {
+                        url: bookmark.url,
+                        title: bookmark.title.toLowerCase(),
+                        faviconUrl: favicon
+                    }
+                    BOOKMARKS.push(bookmarkItem)
+                }
+            }
+        }
+    }
+    localStorage.setItem("bookmarks", JSON.stringify(BOOKMARKS));
+    showBookmarks();
+}
+
+document.addEventListener('DOMContentLoaded', () => {    
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const activeTab = tabs[0];
-        console.log(tabs);
         const activeTabUrl = activeTab.url;
         const activeTabTitle = activeTab.title;
         const activeTabFavIconUrl = activeTab.favIconUrl;
@@ -32,7 +77,7 @@ function addBookmark() {
     const title = document.getElementById('title').value;
     const favicon = document.getElementById('favicon').value;
 
-    if(checkIfAlreadyBookmarked(url, title)) {
+    if (checkIfAlreadyBookmarked(url, title)) {
         alert("This page is already bookmarked");
         return;
     }
@@ -63,40 +108,50 @@ function showBookmarks() {
     const bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
 
     for (const bookmark of bookmarks) {
-        const listItem = document.createElement("li");
-
-        const div = document.createElement("div");
-        div.classList.add("bookmark-item");
-        div.onclick = () => window.open(bookmark.url, "_blank");
-        const faviconImg = document.createElement("img");
-        faviconImg.src = bookmark.faviconUrl;
-        faviconImg.alt = "favicon";
-        faviconImg.style.width = "16px";
-        faviconImg.style.height = "16px";
-        div.appendChild(faviconImg);
-        
-        const title = document.createElement("span");
-        title.textContent = bookmark.title;
-        div.appendChild(title);
-        listItem.appendChild(div);
-
-        const div2 = document.createElement("div");
-        div2.classList.add("bookmark-actions");
-        const editIcon = document.createElement('button')
-        editIcon.textContent = "Edit";
-        div2.appendChild(editIcon);
-
-        const deleteIcon = document.createElement('button')
-        deleteIcon.textContent = "Delete";
-        deleteIcon.onclick = () => {
-            handleDelete(bookmark.url)
-        }
-        div2.appendChild(deleteIcon);
-        listItem.appendChild(div2);
-
+        const listItem = createBookmarkListItem(bookmark);
         bookmarkList.appendChild(listItem);
         bookmarkList.appendChild(document.createElement("hr"));
     }
+}
+
+function createBookmarkListItem(bookmark) {
+    const listItem = document.createElement("li");
+
+    const div = document.createElement("div");
+    div.classList.add("bookmark-item");
+    div.onclick = () => window.open(bookmark.url, "_blank");
+
+    const faviconImg = document.createElement("img");
+    faviconImg.src = bookmark.faviconUrl;
+    faviconImg.alt = "favicon";
+    faviconImg.style.width = "16px";
+    faviconImg.style.height = "16px";
+
+    div.appendChild(faviconImg);
+
+    const title = document.createElement("span");
+    title.textContent = bookmark.title;
+    div.appendChild(title);
+    listItem.appendChild(div);
+
+    const div2 = document.createElement("div");
+    div2.classList.add("bookmark-actions");
+    const editIcon = document.createElement('button')
+    editIcon.textContent = "Edit";
+    // editIcon.onclick = () => {
+    //     handleEdit(bookmark.url)
+    // }
+    div2.appendChild(editIcon);
+
+    const deleteIcon = document.createElement('button')
+    deleteIcon.textContent = "Delete";
+    deleteIcon.onclick = () => {
+        handleDelete(bookmark.url)
+    }
+    div2.appendChild(deleteIcon);
+    listItem.appendChild(div2);
+
+    return listItem;
 }
 
 function handleDelete(url) {
@@ -108,5 +163,45 @@ function handleDelete(url) {
 
     showBookmarks();
 }
+
+// function handleEdit(url) {
+//     let bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+
+//     const bookmark = bookmarks.find(bookmark => bookmark.url === url);
+
+//     document.getElementById('urlInput').value = bookmark.url;
+//     document.getElementById('title').value = bookmark.title;
+//     document.getElementById('add_bookmark').textContent = "Update";
+
+//     document.getElementById('add_bookmark').addEventListener('click', () => {
+//         updateBookmark(url)
+//         document.getElementById('add_bookmark').removeEventListener('click', updateBookmark)
+//     })
+// }
+
+// function updateBookmark(url) {
+//     const newUrl = document.getElementById("urlInput").value;
+//     const newTitle = document.getElementById('title').value;
+
+//     if(newUrl === "" || newTitle === "") {
+//         alert("Please fill all the fields");
+//         return;
+//     }
+
+//     let bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+
+//     const bookmark = bookmarks.find(bookmark => bookmark.url === url);
+
+//     bookmark.url = newUrl;
+//     bookmark.title = newTitle;
+
+//     localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+
+//     document.getElementById('urlInput').value = "";
+//     document.getElementById('title').value = "";
+//     document.getElementById('add_bookmark').textContent = "Add Bookmark";
+
+//     showBookmarks();
+// }
 
 showBookmarks();

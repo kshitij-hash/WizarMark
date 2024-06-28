@@ -5,7 +5,8 @@
     "description": "A simple extension to bookmark websites",
     "permissions": [
         "activeTab",
-        "tabs"
+        "tabs",
+        "bookmarks"
     ],
     "action": {
         "default_popup": "index.html"

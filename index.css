@@ -1,7 +1,12 @@
+* {
+    font-family: 'Stylish', serif;
+}
+
 body {
-    font-family: sans-serif;
     width: 400px;
     height: 300px;
+    color: #ccc;
+    background-color: #333;
 }
 
 h1 {
@@ -30,7 +35,11 @@ input[type="text"] {
 
 ul {
     list-style: none;
-    padding: 0;
+    padding: 0 10px;
+    max-height: 150px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #555 #333;
 }
 
 li {
@@ -38,10 +47,17 @@ li {
     justify-content: space-between;
 }
 
+li span {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+
 .bookmark-item {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 4px;
     cursor: pointer;
 }
 
