@@ -19,19 +19,21 @@
     <div id="wizarmark">
         <div>
             <img src="" alt="wizarmark icon" id="logo">
-            <h1>wizarmark</h1>
+            <h1>WizarMark</h1>
         </div>
-        <span class="material-symbols-outlined">
-            close
-        </span>
+        <div class="right">
+            <button href="#" id="fetch_bookmarks">Fetch Bookmarks</button>
+            <span class="material-symbols-outlined">
+                close
+            </span>
+        </div>
     </div>
     <form id="bookmarkForm">
-        <input type="text" id="title" placeholder="enter title" required>
-        <input type="text" id="urlInput" placeholder="enter website url" required>
+        <input type="text" id="title" placeholder="Enter title" required>
+        <input type="text" id="urlInput" placeholder="Enter website url" required>
         <input type="hidden" id="favicon">
-        <button type="submit" id="add_bookmark">add bookmark</button>
+        <button type="submit" id="add_bookmark">Add Bookmark</button>
     </form>
-    <button id="fetch_bookmarks">fetch bookmarks</button>
     <ul id="bookmarkList"></ul>
     <script src="index.js"></script>
 </body>
