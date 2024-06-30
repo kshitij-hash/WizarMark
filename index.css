@@ -9,7 +9,7 @@ body {
   width: 400px;
   height: 300px;
   padding: 10px;
-  background-color: #333;
+  background-color: #343a40;
 }
 
 #wizarmark {
@@ -21,6 +21,11 @@ body {
 #wizarmark div {
     display: flex;
     align-items: center;
+}
+#wizarmark .dropdown .dropdown-content {
+  display: flex;
+  flex-direction: column;
+  top: 20%;
 }
 
 #wizarmark span {
@@ -37,9 +42,9 @@ body {
 }
 
 h1 {
-  color: rgb(241, 200, 96);
+  color: #35c9c9;
   margin-bottom: 10px;
-  font-weight: 400;
+  font-weight: 900;
 }
 
 #bookmarkForm {
@@ -51,18 +56,31 @@ input[type="text"] {
   padding: 5px 10px;
   border: none;
   margin-bottom: 10px;
-  border-radius: 24px;
-  background-color: rgb(241, 200, 96);
+  border-radius: 7px;
+  background-color: #adb5bd;
+  font-weight: 400;
   color: black;
+  transition: 0.5s ease all;
+}
+
+#title {
+  text-transform: capitalize;
+}
+
+input[type="text"]:hover {
+  background-color: white;
 }
 
 #add_bookmark {
   width: 40%;
   padding: 7px 15px;
-  border-radius: 24px;
+  border-radius: 7px;
   background-color: #4caf50;
   color: white;
   border: none;
+  font-size: 15px;
+  letter-spacing: 2px;
+  font-weight: 700;
   cursor: pointer;
   margin-bottom: 10px;
 }
@@ -72,9 +90,6 @@ ul {
   max-height: 200px;
   scrollbar-width: thin;
   scrollbar-color: #555 #333;
-  padding: 10px 17px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(4px);
   overflow-y: auto;
   text-align: center;
@@ -83,12 +98,14 @@ ul {
 
 li {
   display: flex;
+  margin-top: 10px;
   justify-content: space-between;
   border: none;
   font-size: medium;
-  gap: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-  padding: 10px;
+  background-color: #35c9c9;
+  border-radius: 12px;
+  text-transform: capitalize;
+  padding: 5px;
   text-align: start;
   color: white;
 }
@@ -98,6 +115,8 @@ li span {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
+  color: black;
+  font-weight: 700;
 }
 
 .bookmark-item {
@@ -116,10 +135,11 @@ li span {
     display: flex;
     align-items: center;
     cursor: pointer;
-    padding: 2px;
+    padding: 7px;
     border-radius: 50%;
     border: none;
     transition: 0.5s ease all;
+    /* background-color: rgb(214, 86, 86); */
 }
 
 .bookmark-actions button span {
@@ -129,4 +149,11 @@ li span {
 .bookmark-actions button:hover {
   background-color: rgb(175, 69, 69);
   color: white;
+}
+
+#fetch_bookmarks {
+  padding: 10px;
+  border-radius: 12px;
+  background-color: #35c9c9;
+  border: none;
 }
