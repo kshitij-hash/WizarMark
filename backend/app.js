@@ -10,16 +10,16 @@ const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 const app = express();
 app.use(cors());
 
-const userRoute = require('./routes/user');
+//const userRoute = require('./routes/user');
 
 const connectDB = require("./config/db");
 
 app.use(express.json());
 
-app.use("/api/user", userRoute);
+//app.use("/api/user", userRoute);
 
-app.use(notFound);
-app.use(errorHandler);
+// app.use(notFound);
+// app.use(errorHandler);
 
 const port = process.env.PORT || 7070;
 
