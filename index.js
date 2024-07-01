@@ -48,9 +48,29 @@ const getBookMarks = async () => {
             }
         }
     }
-    localStorage.setItem("bookmarks", JSON.stringify(BOOKMARKS));
-    showBookmarks();
+    chrome.storage.local.get({ bookmarks: [] }, (result) => {
+        const existingBookmarks = result.bookmarks || [];
+        const newBookmarks = []
+
+        for(const bookmark of BOOKMARKS) {
+            const exists = existingBookmarks.some(existing => existing.url === bookmark.url || existing.title === bookmark.title)
+            if(!exists) {
+                newBookmarks.push(bookmark)
+            }
+        }
+
+        const updatedBookmarks = [...existingBookmarks, ...newBookmarks]
+        chrome.storage.local.set({ bookmarks: updatedBookmarks }, () => {
+            showBookmarks();
+        })
+    })
 }
+
+document.getElementById('delete_btn').addEventListener('click', () => {
+    chrome.storage.local.set({ bookmarks: [] }, () => {
+        showBookmarks();
+    })
+})
 
 document.addEventListener('DOMContentLoaded', () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -64,15 +84,12 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 })
 
-function checkIfAlreadyBookmarked(url, title) {
-    const bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
-
-    for (const bookmark of bookmarks) {
-        if (bookmark.url === url || bookmark.title === title) {
-            return true;
-        }
-    }
-    return false;
+function checkIfAlreadyBookmarked(url, title, callback) {
+    chrome.storage.local.get({ bookmarks: [] }, (result) => {
+        const bookmarks = result.bookmarks || [];
+        const isBookmarked = bookmarks.some(bookmark => bookmark.url === url || bookmark.title === title);
+        callback(isBookmarked);
+    });
 }
 
 function addBookmark() {
@@ -80,45 +97,49 @@ function addBookmark() {
     const title = document.getElementById('title').value;
     const favicon = document.getElementById('favicon').value;
 
-    if (checkIfAlreadyBookmarked(url, title)) {
-        alert("This page is already bookmarked");
-        return;
-    }
+    checkIfAlreadyBookmarked(url, title, (isBookmarked) => {
+        if (isBookmarked) {
+            alert('This URL is already bookmarked');
+        } else {
+            const bookmark = {
+                url: url,
+                title: title,
+                faviconUrl: favicon
+            };
+            chrome.storage.local.get({ bookmarks: [] }, (result) => {
+                const bookmarks = result.bookmarks || [];
+                bookmarks.push(bookmark);
 
-    const bookmark = {
-        url: url,
-        title: title,
-        faviconUrl: favicon
-    };
+                chrome.storage.local.set({ bookmarks: bookmarks }, () => {
+                    console.log('Bookmark added');
+                    chrome.runtime.sendMessage({ action: 'update_icon' });
+                    document.getElementById('urlInput').value = "";
+                    document.getElementById('title').value = "";
 
-    let bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
-
-    bookmarks.push(bookmark);
-
-    localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
-
-    document.getElementById('urlInput').value = "";
-    document.getElementById('title').value = "";
-
-    showBookmarks();
+                    showBookmarks();
+                })
+            })
+        }
+    })
 }
 
 function showBookmarks() {
     const bookmarkList = document.getElementById("bookmarkList");
 
-    const bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
-
-    if (bookmarks.length === 0) {
-        bookmarkList.innerHTML = "no bookmarks added yet...";
-        return;
-    } else {
+    chrome.storage.local.get({ bookmarks: [] }, (result) => {
+        const bookmarks = result.bookmarks || [];
         bookmarkList.innerHTML = "";
-    }
 
-    for (let i = 0; i < 3; i++) {
-        const listItem = createBookmarkListItem(bookmarks[i]);
-        bookmarkList.appendChild(listItem);
-    }
+        if (bookmarks.length === 0) {
+            bookmarkList.innerHTML = "no bookmarks added yet...";
+            return;
+        }
+
+        for (const bookmark of bookmarks) {
+            const listItem = createBookmarkListItem(bookmark);
+            bookmarkList.appendChild(listItem);
+        }
+    });
 }
 
 function createBookmarkListItem(bookmark) {
@@ -145,8 +166,9 @@ function createBookmarkListItem(bookmark) {
     div2.classList.add("bookmark-actions");
 
     const deleteIcon = document.createElement('button')
-    deleteIcon.innerHTML =  `<span class="material-symbols-outlined">delete</span>`;
-    deleteIcon.onclick = () => {
+    deleteIcon.innerHTML = `<span class="material-symbols-outlined">delete</span>`;
+    deleteIcon.onclick = (e) => {
+        e.stopPropagation();
         handleDelete(bookmark.url)
     }
     div2.appendChild(deleteIcon);
@@ -156,13 +178,16 @@ function createBookmarkListItem(bookmark) {
 }
 
 function handleDelete(url) {
-    let bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+    chrome.storage.local.get({ bookmarks: [] }, (result) => {
+        let bookmarks = result.bookmarks || [];
+        bookmarks = bookmarks.filter(bookmark => bookmark.url !== url);
 
-    bookmarks = bookmarks.filter(bookmark => bookmark.url !== url);
-
-    localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
-
-    showBookmarks();
+        chrome.storage.local.set({ bookmarks: bookmarks }, () => {
+            console.log('Bookmark deleted');
+            chrome.runtime.sendMessage({ action: 'update_icon' });
+            showBookmarks();
+        });
+    });
 }
 
 showBookmarks();

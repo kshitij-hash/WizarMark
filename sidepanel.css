@@ -1,7 +1,11 @@
-html, body {
+* {
+    font-family: "Stylish", serif;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+}
+
+html, body {
     background-color: #333;
     color: whitesmoke;
     scrollbar-width: thin;
@@ -19,7 +23,7 @@ li {
     justify-content: space-between;
     gap: 10px;
     border: none;
-    font-size: small;
+    font-size: medium;
     padding: 20px 5px;
     border-bottom: 1px solid #555;
 }
@@ -52,6 +56,8 @@ li span {
     border-radius: 50%;
     border: none;
     transition: 0.5s ease all;
+    background-color: transparent;
+    color: whitesmoke;
 }
 
 .bookmark-actions button span {
@@ -59,6 +65,6 @@ li span {
 }
 
 .bookmark-actions button:hover {
+    color: whitesmoke;
     background-color: red;
-    color: white;
 }
