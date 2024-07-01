@@ -9,7 +9,7 @@ body {
   width: 400px;
   height: 300px;
   padding: 10px;
-  background-color: #343a40;
+  background-color: #333;
 }
 
 #wizarmark {
@@ -28,10 +28,15 @@ body {
   top: 20%;
 }
 
-#wizarmark span {
-    color: red;
-    font-weight: 700;
-    cursor: pointer;
+#sidepanel_btn {
+  color: whitesmoke;
+  cursor: pointer;
+}
+
+#close_btn {
+  color: red;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 #logo {

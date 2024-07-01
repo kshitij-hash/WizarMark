@@ -24,8 +24,9 @@ function createBookmarkListItem(bookmark) {
     div2.classList.add("bookmark-actions");
 
     const deleteIcon = document.createElement('button')
-    deleteIcon.innerHTML =  `<span class="material-symbols-outlined">delete</span>`;
-    deleteIcon.onclick = () => {
+    deleteIcon.innerHTML = `<span class="material-symbols-outlined">delete</span>`;
+    deleteIcon.onclick = (e) => {
+        e.stopPropagation();
         handleDelete(bookmark.url)
     }
     div2.appendChild(deleteIcon);
@@ -35,13 +36,33 @@ function createBookmarkListItem(bookmark) {
 }
 
 function showBookmarks() {
-    const bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
-
     const bookmarkList = document.getElementById("bookmarkList");
 
-    for (const bookmark of bookmarks) {
-        const bookmarkElement = createBookmarkListItem(bookmark);
-        bookmarkList.appendChild(bookmarkElement);
-    }
+    chrome.storage.local.get({ bookmarks: [] }, (result) => {
+        const bookmarks = result.bookmarks || [];
+        bookmarkList.innerHTML = "";
+
+        if (bookmarks.length === 0) {
+            bookmarkList.innerHTML = "no bookmarks added yet...";
+            return;
+        }
+
+        for (let i = 0; i < bookmarks.length; i++) {
+            const listItem = createBookmarkListItem(bookmarks[i]);
+            bookmarkList.appendChild(listItem);
+        }
+    });
 }
 showBookmarks();
+
+function handleDelete(url) {
+    chrome.storage.local.get({ bookmarks: [] }, (result) => {
+        let bookmarks = result.bookmarks || [];
+        bookmarks = bookmarks.filter(bookmark => bookmark.url !== url);
+
+        chrome.storage.local.set({ bookmarks: bookmarks }, () => {
+            chrome.runtime.sendMessage({ action: 'update_icon' });
+            showBookmarks();
+        });
+    });
+}
