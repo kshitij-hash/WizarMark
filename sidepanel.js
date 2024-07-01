@@ -54,3 +54,15 @@ function showBookmarks() {
     });
 }
 showBookmarks();
+
+function handleDelete(url) {
+    chrome.storage.local.get({ bookmarks: [] }, (result) => {
+        let bookmarks = result.bookmarks || [];
+        bookmarks = bookmarks.filter(bookmark => bookmark.url !== url);
+
+        chrome.storage.local.set({ bookmarks: bookmarks }, () => {
+            chrome.runtime.sendMessage({ action: 'update_icon' });
+            showBookmarks();
+        });
+    });
+}

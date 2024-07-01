@@ -47,7 +47,6 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
 
 chrome.runtime.onMessage.addListener((message) => {
     if(message.action === 'update_icon') {
-        console.log('Received message to update icon');
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             const activeTab = tabs[0];
             if(activeTab) {

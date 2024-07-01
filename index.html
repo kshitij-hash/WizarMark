@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Stylish&display=swap" rel="stylesheet">
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,700,0,0" />
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />
 </head>
 
 <body>
@@ -20,8 +20,10 @@
             <h1>wizarmark</h1>
         </div>
         <div class="right">
-            <button id="fetch_bookmarks">fetch bookmarks</button>
-            <span class="material-symbols-outlined">
+            <span id="sidepanel_btn" class="material-symbols-outlined">
+                dock_to_left
+            </span>
+            <span id="close_btn" class="material-symbols-outlined">
                 close
             </span>
         </div>
@@ -32,7 +34,7 @@
         <input type="hidden" id="favicon">
         <button type="submit" id="add_bookmark">add bookmark</button>
     </form>
-    <button id="sidepanel_btn">show all</button>
+    <button id="fetch_bookmarks">fetch bookmarks</button>
     <button id="delete_btn">delete all</button>
     <ul id="bookmarkList"></ul>
     <script src="index.js"></script>

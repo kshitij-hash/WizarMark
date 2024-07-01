@@ -5,7 +5,7 @@ document.getElementById('bookmarkForm').addEventListener('submit', (e) => {
 document.getElementById('fetch_bookmarks').addEventListener('click', () => {
     getBookMarks();
 })
-document.getElementsByClassName("material-symbols-outlined")[0].addEventListener('click', () => {
+document.getElementById("close_btn").addEventListener('click', () => {
     window.close();
 })
 
@@ -111,7 +111,6 @@ function addBookmark() {
                 bookmarks.push(bookmark);
 
                 chrome.storage.local.set({ bookmarks: bookmarks }, () => {
-                    console.log('Bookmark added');
                     chrome.runtime.sendMessage({ action: 'update_icon' });
                     document.getElementById('urlInput').value = "";
                     document.getElementById('title').value = "";
@@ -183,7 +182,6 @@ function handleDelete(url) {
         bookmarks = bookmarks.filter(bookmark => bookmark.url !== url);
 
         chrome.storage.local.set({ bookmarks: bookmarks }, () => {
-            console.log('Bookmark deleted');
             chrome.runtime.sendMessage({ action: 'update_icon' });
             showBookmarks();
         });
