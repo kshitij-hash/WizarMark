@@ -1,15 +1,18 @@
 {
     "manifest_version": 3,
-    "name": "WizarMark Extension",
+    "name": "WizarMark",
     "version": "1.0",
     "description": "A simple extension to bookmark websites",
     "permissions": [
         "activeTab",
         "tabs",
-        "bookmarks"
+        "bookmarks",
+        "sidePanel"
     ],
+    "side_panel": {
+        "default_path": "sidepanel.html"
+    },
     "action": {
-        "default_popup": "index.html",
-        "default_icons": "WizarMark2.png"
+        "default_popup": "index.html"
     }
 }

@@ -5,7 +5,6 @@ document.getElementById('bookmarkForm').addEventListener('submit', (e) => {
 document.getElementById('fetch_bookmarks').addEventListener('click', () => {
     getBookMarks();
 })
-
 document.getElementsByClassName("material-symbols-outlined")[0].addEventListener('click', () => {
     window.close();
 })
@@ -116,10 +115,9 @@ function showBookmarks() {
         bookmarkList.innerHTML = "";
     }
 
-    for (const bookmark of bookmarks) {
-        const listItem = createBookmarkListItem(bookmark);
+    for (let i = 0; i < 3; i++) {
+        const listItem = createBookmarkListItem(bookmarks[i]);
         bookmarkList.appendChild(listItem);
-        // bookmarkList.appendChild(document.createElement("hr"));
     }
 }
 

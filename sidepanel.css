@@ -1,0 +1,64 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background-color: #333;
+    color: whitesmoke;
+    scrollbar-width: thin;
+    scrollbar-color: #555 #333;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    border: none;
+    font-size: small;
+    padding: 20px 5px;
+    border-bottom: 1px solid #555;
+}
+
+li span {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    font-weight: 400;
+}
+
+.bookmark-item span:hover {
+    color: yellow;
+    text-decoration: underline;
+}
+
+.bookmark-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.bookmark-actions button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    border: none;
+    transition: 0.5s ease all;
+}
+
+.bookmark-actions button span {
+    font-size: 18px;
+}
+
+.bookmark-actions button:hover {
+    background-color: red;
+    color: white;
+}
