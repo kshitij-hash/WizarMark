@@ -5,7 +5,6 @@ function createBookmarkListItem(bookmark) {
 
     const div = document.createElement("div");
     div.classList.add("bookmark-item");
-    div.onclick = () => window.open(bookmark.url, "_blank");
 
     const faviconImg = document.createElement("img");
     faviconImg.src = bookmark.faviconUrl;
@@ -15,9 +14,14 @@ function createBookmarkListItem(bookmark) {
 
     div.appendChild(faviconImg);
 
+    const anchor = document.createElement("a");
+    anchor.href = bookmark.url;
+    anchor.target = "_blank";
+
     const title = document.createElement("span");
     title.textContent = bookmark.title;
-    div.appendChild(title);
+    anchor.appendChild(title);
+    div.appendChild(anchor);
     listItem.appendChild(div);
 
     const div2 = document.createElement("div");
@@ -66,3 +70,30 @@ function handleDelete(url) {
         });
     });
 }
+
+document.getElementById('search').addEventListener('input', (e) => {
+    const search = e.target.value.toLowerCase();
+    const bookmarkList = document.getElementById("bookmarkList");
+    const items = bookmarkList.querySelectorAll('li');
+    const noResultMessage = document.getElementById('no-result-message');
+
+    let found = false;
+
+    items.forEach(item => {
+        const title = item.querySelector('.bookmark-item span').textContent;
+        const url = item.querySelector('.bookmark-item a').href;
+        
+        if(title.includes(search) || url.includes(search)) {
+            item.style.display = 'flex';
+            found = true;
+        } else {
+            item.style.display = 'none';
+        }
+        
+        if(found) {
+            noResultMessage.style.display = 'none';
+        } else {
+            noResultMessage.style.display = 'block';
+        }
+    })
+})

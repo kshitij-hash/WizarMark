@@ -3,13 +3,53 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    color: whitesmoke;
 }
 
 html, body {
     background-color: #333;
     color: whitesmoke;
+    overflow: hidden;
+}
+
+#header {
+    height: 10vh;
+    border-bottom: 1px solid #555;
+    display: flex;
+    align-items: center;
+}
+
+#container {
+    height: 90vh;
+    overflow: hidden;
+    position: relative;
+}
+
+#bookmarkList {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: #555 #333;
+}
+
+#no-result-message {
+    display: none;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#search {
+    width: 90%;
+    margin: 0 5px;
+    padding: 10px;
+    background-color: #333;
+    outline: none;
+    border: none;
+    border: 1px solid #555;
+    border-radius: 5px;
 }
 
 ul {
@@ -45,7 +85,11 @@ li span {
     display: flex;
     align-items: center;
     gap: 5px;
-    cursor: pointer;
+}
+
+.bookmark-item a {
+    color: whitesmoke;
+    text-decoration: none;
 }
 
 .bookmark-actions button {
@@ -67,4 +111,8 @@ li span {
 .bookmark-actions button:hover {
     color: whitesmoke;
     background-color: red;
+}
+
+#noBookmarksFound {
+    display: none;
 }
