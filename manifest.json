@@ -11,7 +11,7 @@
         "storage"
     ],
     "side_panel": {
-        "default_path": "sidepanel.html"
+        "default_path": "sidepanel/sidepanel.html"
     },
     "icons": {
         "16": "icons/icon16.png",
