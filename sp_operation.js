@@ -9,7 +9,7 @@ button.addEventListener('click', async () => {
     await chrome.sidePanel.open({ tabId });
     await chrome.sidePanel.setOptions({
         tabId,
-        path: 'sidepanel.html',
+        path: 'sidepanel/sidepanel.html',
         enabled: true
     });
 });
