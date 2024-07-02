@@ -15,10 +15,7 @@
 
 <body>
     <div id="wizarmark">
-        <div>
-            <img src="" alt="wizarmark icon" id="logo">
-            <h1>wizarmark</h1>
-        </div>
+        <p>add new bookmark</p>
         <div class="right">
             <span id="sidepanel_btn" class="material-symbols-outlined">
                 dock_to_left
@@ -32,11 +29,8 @@
         <input type="text" id="title" placeholder="Enter title" required>
         <input type="text" id="urlInput" placeholder="Enter website url" required>
         <input type="hidden" id="favicon">
-        <button type="submit" id="add_bookmark">add bookmark</button>
+        <button type="submit" id="add_bookmark">save</button>
     </form>
-    <button id="fetch_bookmarks">fetch bookmarks</button>
-    <button id="delete_btn">delete all</button>
-    <ul id="bookmarkList"></ul>
     <script src="index.js"></script>
     <script type="module" src="sp_operation.js"></script>
 </body>

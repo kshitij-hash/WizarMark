@@ -2,74 +2,9 @@ document.getElementById('bookmarkForm').addEventListener('submit', (e) => {
     e.preventDefault();
     addBookmark();
 });
-document.getElementById('fetch_bookmarks').addEventListener('click', () => {
-    getBookMarks();
-})
+
 document.getElementById("close_btn").addEventListener('click', () => {
     window.close();
-})
-
-function getFavicon(url) {
-    return `https://www.google.com/s2/favicons?domain=${url}`;
-}
-
-const getBookMarks = async () => {
-    const bookmarkTree = await chrome.bookmarks.getTree();
-    const children = bookmarkTree[0].children;
-    const BOOKMARKS = []
-
-    for (const child of children) {
-        if (child.children.length > 0) {
-            for (const bookmark of child.children) {
-                if (bookmark.url === undefined) {
-                    if (bookmark.children.length > 0) {
-                        for (const subBookmark of bookmark.children) {
-                            const domain = new URL(subBookmark.url).hostname;
-                            const favicon = getFavicon(domain)
-                            const bookmarkItem = {
-                                url: subBookmark.url,
-                                title: subBookmark.title.toLowerCase(),
-                                faviconUrl: favicon
-                            }
-                            BOOKMARKS.push(bookmarkItem)
-                        }
-                    }
-                }
-                else {
-                    const domain = new URL(bookmark.url).hostname;
-                    const favicon = getFavicon(domain)
-                    const bookmarkItem = {
-                        url: bookmark.url,
-                        title: bookmark.title.toLowerCase(),
-                        faviconUrl: favicon
-                    }
-                    BOOKMARKS.push(bookmarkItem)
-                }
-            }
-        }
-    }
-    chrome.storage.local.get({ bookmarks: [] }, (result) => {
-        const existingBookmarks = result.bookmarks || [];
-        const newBookmarks = []
-
-        for(const bookmark of BOOKMARKS) {
-            const exists = existingBookmarks.some(existing => existing.url === bookmark.url || existing.title === bookmark.title)
-            if(!exists) {
-                newBookmarks.push(bookmark)
-            }
-        }
-
-        const updatedBookmarks = [...existingBookmarks, ...newBookmarks]
-        chrome.storage.local.set({ bookmarks: updatedBookmarks }, () => {
-            showBookmarks();
-        })
-    })
-}
-
-document.getElementById('delete_btn').addEventListener('click', () => {
-    chrome.storage.local.set({ bookmarks: [] }, () => {
-        showBookmarks();
-    })
 })
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -112,33 +47,13 @@ function addBookmark() {
 
                 chrome.storage.local.set({ bookmarks: bookmarks }, () => {
                     chrome.runtime.sendMessage({ action: 'update_icon' });
+                    chrome.runtime.sendMessage({ action: 'added_bookmark' })
                     document.getElementById('urlInput').value = "";
                     document.getElementById('title').value = "";
-
-                    showBookmarks();
                 })
             })
         }
     })
-}
-
-function showBookmarks() {
-    const bookmarkList = document.getElementById("bookmarkList");
-
-    chrome.storage.local.get({ bookmarks: [] }, (result) => {
-        const bookmarks = result.bookmarks || [];
-        bookmarkList.innerHTML = "";
-
-        if (bookmarks.length === 0) {
-            bookmarkList.innerHTML = "no bookmarks added yet...";
-            return;
-        }
-
-        for (const bookmark of bookmarks) {
-            const listItem = createBookmarkListItem(bookmark);
-            bookmarkList.appendChild(listItem);
-        }
-    });
 }
 
 function createBookmarkListItem(bookmark) {
@@ -175,17 +90,3 @@ function createBookmarkListItem(bookmark) {
 
     return listItem;
 }
-
-function handleDelete(url) {
-    chrome.storage.local.get({ bookmarks: [] }, (result) => {
-        let bookmarks = result.bookmarks || [];
-        bookmarks = bookmarks.filter(bookmark => bookmark.url !== url);
-
-        chrome.storage.local.set({ bookmarks: bookmarks }, () => {
-            chrome.runtime.sendMessage({ action: 'update_icon' });
-            showBookmarks();
-        });
-    });
-}
-
-showBookmarks();
