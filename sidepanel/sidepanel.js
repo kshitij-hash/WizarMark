@@ -18,10 +18,19 @@ function createBookmarkListItem(bookmark) {
     anchor.href = bookmark.url;
     anchor.target = "_blank";
 
-    const title = document.createElement("span");
-    title.textContent = bookmark.title;
-    anchor.appendChild(title);
-    div.appendChild(anchor);
+    const container = document.createElement("div");
+    container.className = "bookmark-title";
+
+    anchor.textContent = bookmark.title;
+    container.appendChild(anchor);
+
+    const dateAdded = document.createElement("span");
+    let date = new Date(bookmark.dateAdded).toDateString();
+    date = date.split(" ").slice(1).join(" ");
+    dateAdded.textContent = date;
+    container.appendChild(dateAdded);
+    div.appendChild(container);
+
     listItem.appendChild(div);
 
     const div2 = document.createElement("div");
@@ -55,6 +64,7 @@ function showBookmarks() {
             return;
         }
 
+        bookmarks.sort((a, b) => b.dateAdded - a.dateAdded);
         for (let i = 0; i < bookmarks.length; i++) {
             const listItem = createBookmarkListItem(bookmarks[i]);
             bookmarkList.appendChild(listItem);
@@ -126,7 +136,8 @@ const getBookMarks = async () => {
                             const bookmarkItem = {
                                 url: subBookmark.url,
                                 title: subBookmark.title.toLowerCase(),
-                                faviconUrl: favicon
+                                faviconUrl: favicon,
+                                dateAdded: subBookmark.dateAdded
                             }
                             BOOKMARKS.push(bookmarkItem)
                         }
@@ -138,7 +149,8 @@ const getBookMarks = async () => {
                     const bookmarkItem = {
                         url: bookmark.url,
                         title: bookmark.title.toLowerCase(),
-                        faviconUrl: favicon
+                        faviconUrl: favicon,
+                        dateAdded: bookmark.dateAdded
                     }
                     BOOKMARKS.push(bookmarkItem)
                 }

@@ -76,7 +76,7 @@ li {
     border-bottom: 1px solid #555;
 }
 
-li span {
+li a {
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -84,7 +84,7 @@ li span {
     font-weight: 400;
 }
 
-.bookmark-item span:hover {
+.bookmark-item a:hover {
     color: yellow;
     text-decoration: underline;
 }
@@ -98,6 +98,17 @@ li span {
 .bookmark-item a {
     color: whitesmoke;
     text-decoration: none;
+}
+
+.bookmark-title {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.bookmark-title span {
+    font-size: 10px;
+    color: gray;
 }
 
 .bookmark-actions button {
