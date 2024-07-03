@@ -25,20 +25,22 @@ function createBookmarkListItem(bookmark) {
     const container2 = document.createElement("div");
     container2.className = "bookmark-details";
 
-    const tags = document.createElement("div");
-    tags.className = "tag-container";
+    if (bookmark.tags) {
+        const tags = document.createElement("div");
+        tags.className = "tag-container";
 
-    for (const tag of bookmark.tags) {
-        const tagElement = document.createElement('div');
-        tagElement.classList.add('tag');
-        const tagText = document.createElement('p');
-        tagText.innerText = tag;
-        tagElement.appendChild(tagText);
+        for (const tag of bookmark.tags) {
+            const tagElement = document.createElement('div');
+            tagElement.classList.add('tag');
+            const tagText = document.createElement('p');
+            tagText.innerText = tag;
+            tagElement.appendChild(tagText);
 
-        tags.appendChild(tagElement);
+            tags.appendChild(tagElement);
+        }
+
+        container2.appendChild(tags);
     }
-
-    container2.appendChild(tags);
 
     const dateAdded = document.createElement("span");
     let date = new Date(bookmark.dateAdded).toDateString();

@@ -38,7 +38,7 @@ function addBookmark() {
 
     checkIfAlreadyBookmarked(url, title, (isBookmarked) => {
         if (isBookmarked) {
-            alert('This URL is already bookmarked');
+            return;
         } else {
             const bookmark = {
                 url: url,
