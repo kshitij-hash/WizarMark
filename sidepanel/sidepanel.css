@@ -57,6 +57,7 @@ html, body {
     border-radius: 5px;
     background-color: #35c9c9;
     border: none;
+    cursor: pointer;
 }
 
 ul {
