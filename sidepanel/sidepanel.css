@@ -68,6 +68,7 @@ ul {
 
 li {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     gap: 10px;
     border: none;
@@ -90,6 +91,7 @@ li a {
 }
 
 .bookmark-item {
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -101,12 +103,12 @@ li a {
 }
 
 .bookmark-title {
+    width: inherit;
     display: flex;
     flex-direction: column;
-    gap: 5px;
 }
 
-.bookmark-title span {
+.bookmark-details span {
     font-size: 10px;
     color: gray;
 }
@@ -134,4 +136,30 @@ li a {
 
 #noBookmarksFound {
     display: none;
+}
+
+.bookmark-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tag-container {
+    display: flex;
+    gap: 5px;
+}
+
+.tag {
+    display: flex;
+    align-items: center;
+    background-color: #555;
+    color: whitesmoke;
+    border: none;
+    border-radius: 10px;
+    padding: 0 5px;
+}
+
+.tag p {
+    font-size: 15px;
+    user-select: none;
 }

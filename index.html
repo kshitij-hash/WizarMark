@@ -15,7 +15,7 @@
 
 <body>
     <div id="wizarmark">
-        <p>add new bookmark</p>
+        <p id="header">add new bookmark</p>
         <div class="right">
             <span id="sidepanel_btn" class="material-symbols-outlined">
                 dock_to_left
@@ -26,8 +26,10 @@
         </div>
     </div>
     <form id="bookmarkForm">
-        <input type="text" id="title" placeholder="Enter title" required>
-        <input type="text" id="urlInput" placeholder="Enter website url" required>
+        <input type="text" id="title" placeholder="Enter title">
+        <input type="text" id="urlInput" placeholder="Enter website url">
+        <input type="text" id="tags" placeholder="#tags">
+        <div id="tag-container">no tags...</div>
         <input type="hidden" id="favicon">
         <button type="submit" id="add_bookmark">save</button>
     </form>

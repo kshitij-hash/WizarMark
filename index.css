@@ -7,7 +7,7 @@
 
 body {
   width: 400px;
-  height: 160px;
+  height: 210px;
   padding: 10px;
   background-color: #333;
 }
@@ -44,7 +44,7 @@ body {
   color: red;
 }
 
-p {
+#header {
   color: #35c9c9;
   margin-bottom: 10px;
   font-size: 20px;
@@ -79,4 +79,41 @@ input[type="text"]:focus {
   font-size: 15px;
   letter-spacing: 2px;
   cursor: pointer;
+}
+
+#tag-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 15px;
+  color: whitesmoke;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  background-color: #555;
+  color: whitesmoke;
+  border: none;
+  border-radius: 10px;
+  padding: 0 5px;
+  gap: 5px;
+}
+
+.tag p {
+  font-size: 15px;
+  user-select: none;
+}
+
+.tag span {
+  display: flex;
+  align-items: center;
+  color: gray;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-size: 15px;
+}
+
+.tag span:hover {
+  color: red;
 }

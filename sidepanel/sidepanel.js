@@ -1,5 +1,3 @@
-const BOOKMARKS = JSON.parse(localStorage.getItem("bookmarks")) || [];
-
 function createBookmarkListItem(bookmark) {
     const listItem = document.createElement("li");
 
@@ -9,8 +7,8 @@ function createBookmarkListItem(bookmark) {
     const faviconImg = document.createElement("img");
     faviconImg.src = bookmark.faviconUrl;
     faviconImg.alt = "favicon";
-    faviconImg.style.width = "16px";
-    faviconImg.style.height = "16px";
+    faviconImg.style.width = "20px";
+    faviconImg.style.height = "20px";
 
     div.appendChild(faviconImg);
 
@@ -24,11 +22,31 @@ function createBookmarkListItem(bookmark) {
     anchor.textContent = bookmark.title;
     container.appendChild(anchor);
 
+    const container2 = document.createElement("div");
+    container2.className = "bookmark-details";
+
+    const tags = document.createElement("div");
+    tags.className = "tag-container";
+
+    for (const tag of bookmark.tags) {
+        const tagElement = document.createElement('div');
+        tagElement.classList.add('tag');
+        const tagText = document.createElement('p');
+        tagText.innerText = tag;
+        tagElement.appendChild(tagText);
+
+        tags.appendChild(tagElement);
+    }
+
+    container2.appendChild(tags);
+
     const dateAdded = document.createElement("span");
     let date = new Date(bookmark.dateAdded).toDateString();
     date = date.split(" ").slice(1).join(" ");
     dateAdded.textContent = date;
-    container.appendChild(dateAdded);
+    container2.appendChild(dateAdded);
+
+    container.appendChild(container2);
     div.appendChild(container);
 
     listItem.appendChild(div);
@@ -65,6 +83,7 @@ function showBookmarks() {
         }
 
         bookmarks.sort((a, b) => b.dateAdded - a.dateAdded);
+        console.log(bookmarks)
         for (let i = 0; i < bookmarks.length; i++) {
             const listItem = createBookmarkListItem(bookmarks[i]);
             bookmarkList.appendChild(listItem);
