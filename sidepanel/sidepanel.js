@@ -83,7 +83,6 @@ function showBookmarks() {
         }
 
         bookmarks.sort((a, b) => b.dateAdded - a.dateAdded);
-        console.log(bookmarks)
         for (let i = 0; i < bookmarks.length; i++) {
             const listItem = createBookmarkListItem(bookmarks[i]);
             bookmarkList.appendChild(listItem);
@@ -115,8 +114,9 @@ document.getElementById('search').addEventListener('input', (e) => {
     items.forEach(item => {
         const title = item.querySelector('.bookmark-item span').textContent;
         const url = item.querySelector('.bookmark-item a').href;
+        const tags = Array.from(item.querySelectorAll('.tag-container .tag')).map(tag => tag.textContent);
 
-        if (title.includes(search) || url.includes(search)) {
+        if (title.includes(search) || url.includes(search) || tags.some(tag => tag.includes(search))) {
             item.style.display = 'flex';
             found = true;
         } else {

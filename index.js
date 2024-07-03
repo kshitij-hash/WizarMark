@@ -73,7 +73,7 @@ tagInput.addEventListener('keydown', function (event) {
     const allowedCharacters = /^[a-zA-Z0-9_]*$/;
     if (event.key === ' ') {
         event.preventDefault();
-        const tag = tagInput.value.trim();
+        const tag = tagInput.value.trim().toLowerCase();
         if (tag.startsWith('#') && tag.length > 1 && tag.length <= 12 && allowedCharacters.test(tag.slice(1))) {
             addTag(tag);
             tagInput.value = '';
