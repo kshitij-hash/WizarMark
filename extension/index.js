@@ -29,7 +29,7 @@ function fetchPageContent(tabId) {
         func: () => {
           return {
             title: document.title,
-            content: document.body.innerText.substring(0, 1000), 
+            content: document.body.innerText.substring(0, 1000),
           };
         },
       },
@@ -195,3 +195,28 @@ function removeTag(tag) {
     }
   }
 }
+
+// document.getElementById('auth').addEventListener('click', () => {
+//   chrome.tabs.create({ url: 'http://localhost:5500/' })
+// })
+
+// function checkLoginStatus() {
+//   chrome.tabs.query({ url: 'http://localhost:5500/*' }, (tabs) => {
+//     if (tabs.length > 0) {
+//       chrome.scripting.executeScript({
+//         target: { tabId: tabs[0].id },
+//         function: () => {
+//           return {
+//             loggedIn: localStorage.getItem('loggedIn'),
+//             authToken: localStorage.getItem('authToken')
+//           };
+//         }
+//       }, (results) => {
+//         if (results[0].result.loggedIn === 'true') {
+//           console.log('User logged in successfully, token:', results[0].result.authToken);
+//         }
+//       });
+//     }
+//   });
+// }
+// setInterval(checkLoginStatus, 5000);

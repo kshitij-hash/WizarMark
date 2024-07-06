@@ -65,7 +65,7 @@ export default function WaitlistForm() {
                         </FormItem>
                     )}
                 />
-                <Button disabled={submitting} type='submit'>Join Waitlist</Button>
+                <Button disabled={submitting} type='submit'>Join</Button>
             </form>
         </Form>
     )
