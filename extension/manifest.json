@@ -8,7 +8,8 @@
         "tabs",
         "bookmarks",
         "sidePanel",
-        "storage"
+        "storage",
+        "scripting"
     ],
     "side_panel": {
         "default_path": "sidepanel/sidepanel.html"

@@ -1,40 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WizarMark</title>
-    <link rel="stylesheet" href="index.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Stylish&display=swap" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />
-</head>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Stylish&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0"
+    />
+  </head>
 
-<body>
+  <body>
     <div id="wizarmark">
-        <p id="header">add new bookmark</p>
-        <div class="right">
-            <span id="sidepanel_btn" class="material-symbols-outlined">
-                dock_to_left
-            </span>
-            <span id="close_btn" class="material-symbols-outlined">
-                close
-            </span>
-        </div>
+      <p id="header">add new bookmark</p>
+      <div class="right">
+        <span id="sidepanel_btn" class="material-symbols-outlined">
+          dock_to_left
+        </span>
+        <span id="close_btn" class="material-symbols-outlined"> close </span>
+      </div>
     </div>
     <form id="bookmarkForm">
-        <input type="text" id="title" placeholder="Enter title">
-        <input type="text" id="urlInput" placeholder="Enter website url">
-        <input type="text" id="tags" placeholder="#tags">
-        <div id="tag-container">no tags...</div>
-        <input type="hidden" id="favicon">
-        <button type="submit" id="add_bookmark">save</button>
+      <input type="text" id="title" placeholder="Enter title" />
+      <input type="text" id="urlInput" placeholder="Enter website url" />
+      <input type="text" id="tags" placeholder="#tags" />
+      <div id="tag-container">no tags...</div>
+      <input type="hidden" id="favicon" />
+      <input type="hidden" id="contentHidden" />
+      <p id="contentDisplay"></p>
+      <button type="submit" id="add_bookmark">save</button>
     </form>
     <script src="index.js"></script>
     <script type="module" src="sp_operation.js"></script>
-</body>
-
+  </body>
 </html>
