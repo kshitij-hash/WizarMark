@@ -1,7 +1,7 @@
-const User = require("../models/User");
-const generateToken = require("../config/generateToken");
-const asyncHandler = require("express-async-handler");
-const bcrypt = require("bcryptjs");
+import asyncHandler from "express-async-handler";
+import User from "../models/User.js";
+import generateToken from "../config/generateToken.js";
+import bcrypt from "bcryptjs";
 
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -83,4 +83,4 @@ const logout = asyncHandler(async (req, res) => {
 });
 
 
-module.exports = { login, signup, logout };
+export { login, signup, logout };

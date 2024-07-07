@@ -29,7 +29,7 @@ function fetchPageContent(tabId) {
         func: () => {
           return {
             title: document.title,
-            content: document.body.innerText.substring(0, 1000),
+            content: document.body.innerText,
           };
         },
       },
