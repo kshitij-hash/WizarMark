@@ -1,22 +1,26 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const path = require('path');
-const cors = require('cors');
+import express from 'express';
+import dotenv from 'dotenv';
+import path from 'path';
+import cors from 'cors';
 
-dotenv.config({ path: __dirname + '/.env' });
+import {userRoute} from './routes/user.js';
+import { aiRoute } from './routes/ai.js'; 
 
-const { notFound, errorHandler } = require('./middleware/errorMiddleware');
+
+dotenv.config({ path: new URL('../.env', import.meta.url).pathname });
+
+import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 const app = express();
 app.use(cors());
 
-const userRoute = require('./routes/user');
-
-const connectDB = require("./config/db");
+import connectDB from './config/db.js';
 
 app.use(express.json());
 
 app.use("/api/user", userRoute);
+app.use("/api/ai", aiRoute);
+
 
 app.use(notFound);
 app.use(errorHandler);

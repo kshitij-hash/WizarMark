@@ -1,6 +1,9 @@
-const mongoose = require('mongoose');
-require('dotenv').config();
-//console.log(process.env);
+import mongoose from 'mongoose';
+
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 
 const connectDB = async () => {
     try {
@@ -15,7 +18,6 @@ const connectDB = async () => {
     }
 }
 
-module.exports = connectDB;
+export default connectDB;
 
 
-//mongodb+srv://Wizarmark:<password>@cluster0.o3y0dz5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
