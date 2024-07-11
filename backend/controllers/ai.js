@@ -47,12 +47,12 @@ const summarizer = await pipeline('summarization');
 const summarize = asyncHandler(async (req, res) => { 
         try {
           const { text } = req.body;
-          
           if (!text) {
             return res.status(400).json({ error: 'Text is required' });
           }
       
-          const summary = await summarizer(text, { max_length: 100, min_length: 30, do_sample: false });
+          const summary = await summarizer(text);
+          
           res.json({ summary: summary[0].summary_text });
         } catch (error) {
           console.error('Error while summarizing:', error);

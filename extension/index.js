@@ -44,13 +44,12 @@ function fetchPageContent(tabId) {
   });
 }
 
+
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     const tab = await getCurrentTab();
     const content = await fetchPageContent(tab.id);
-
-    console.log("Content:", content);
-
+    console.log("content: ", content);
     const activeTab = tab;
     const activeTabUrl = activeTab.url;
     const activeTabTitle = activeTab.title;
@@ -58,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("favicon").value = activeTabFavIconUrl;
     document.getElementById("title").value = activeTabTitle.toLowerCase();
     document.getElementById("urlInput").value = activeTabUrl;
-
+    document.getElementById("contentHidden").value = JSON.stringify(content);
     // document.getElementById("contentDisplay").textContent =
     //   content.title + "\n\n" + content.content;
   } catch (error) {
@@ -80,25 +79,61 @@ function checkIfAlreadyBookmarked(url, title, callback) {
 }
 
 
+
+async function summarizeContent(content) {
+  try {
+
+    const response = await fetch('http://localhost:7070/api/ai/summarize', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ text: content }),
+    });
+
+
+    if (response.ok) {
+      const data = await response.json();
+      return data.summary || '';
+    } else {
+      console.error('Error summarizing content:', response.statusText);
+      return '';
+    }
+  } catch (error) {
+    console.error('Error making summarize API call:', error);
+    return '';
+  }
+}
+
+
+
 function addBookmark() {
   const url = document.getElementById("urlInput").value;
   const title = document.getElementById("title").value;
   const favicon = document.getElementById("favicon").value;
+  const content = JSON.parse(document.getElementById("contentHidden").value).content;
 
   if (tags.length === 0 || !url || !title) {
+    console.log("Missing required fields (tags, url, or title)");
     return;
   }
 
-  checkIfAlreadyBookmarked(url, title, (isBookmarked) => {
+  checkIfAlreadyBookmarked(url, title, async (isBookmarked) => {
     if (isBookmarked) {
+      console.log("Already bookmarked");
       return;
     } else {
+
+      const summary = await summarizeContent(content);
+      console.log("summary: ", summary);
+
       const bookmark = {
         url: url,
         title: title,
         faviconUrl: favicon,
         dateAdded: Date.now(),
         tags: tags,
+        summary: summary,
       };
       chrome.storage.local.get({ bookmarks: [] }, (result) => {
         const bookmarks = result.bookmarks || [];
