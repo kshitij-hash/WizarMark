@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from './ui/form'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
-import { WaitListSchema } from '@/schemas/WaitlistSchema'
+import { waitListSchema } from '@/schemas/waitlistSchema'
 import { useToast } from './ui/use-toast'
 import { useState } from 'react'
 import axios, {AxiosError} from 'axios'
@@ -15,14 +15,14 @@ export default function WaitlistForm() {
     const { toast } = useToast();
     const [submitting, setSubmitting] = useState(false)
 
-    const form = useForm<z.infer<typeof WaitListSchema>>({
-        resolver: zodResolver(WaitListSchema),
+    const form = useForm<z.infer<typeof waitListSchema>>({
+        resolver: zodResolver(waitListSchema),
         defaultValues: {
             email: '',
         }
     })
 
-    const onSubmit = async (data: z.infer<typeof WaitListSchema>) => {
+    const onSubmit = async (data: z.infer<typeof waitListSchema>) => {
         setSubmitting(true)
         try {
             const response = await axios.post('/api/waitlist', data)

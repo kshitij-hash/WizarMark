@@ -6,6 +6,6 @@ export const emailValidation = z
         message: 'Invalid email address'
     })
 
-export const WaitListSchema = z.object({
+export const waitListSchema = z.object({
     email: emailValidation
 })

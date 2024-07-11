@@ -1,19 +1,6 @@
-import { ModeToggle } from "@/components/mode-toggle";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import WaitlistForm from "@/components/waitlist-form";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
 import { images } from "../constants/index";
 import Image from "next/image";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -25,39 +12,7 @@ import {
 
 export default function Home() {
   return (
-    <div
-      className="flex flex-col min-h-screen w-full overflow-hidden"
-      suppressHydrationWarning
-    >
-      <header className="flex justify-between px-5 py-2">
-        <Link href="/" className="text-2xl">
-          WizarMark
-        </Link>
-        <div className="flex gap-2">
-          <Dialog>
-            <DialogTrigger>
-              <Button>Join Waitlist</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <WaitlistForm />
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-          <a
-            href="https://github.com/kshitij-hash/WizarMark"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button variant="ghost">
-              <GitHubLogoIcon />
-            </Button>
-          </a>
-          <ModeToggle />
-        </div>
-      </header>
-      <Separator />
-
+    <div className="flex flex-col min-h-screen w-full overflow-hidden">
       <main className="flex-grow">
         <section className="px-5 pt-10 flex flex-col items-center">
           <h1 className="text-4xl font-bold mb-4">Welcome to WizarMark</h1>
