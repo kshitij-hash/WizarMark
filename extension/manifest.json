@@ -9,7 +9,11 @@
         "bookmarks",
         "sidePanel",
         "storage",
-        "scripting"
+        "scripting",
+        "cookies"
+    ],
+    "host_permissions": [
+        "*://wizarmark.vercel.app/"
     ],
     "side_panel": {
         "default_path": "sidepanel/sidepanel.html"

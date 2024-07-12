@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 export { default } from 'next-auth/middleware'
-import { getToken } from 'next-auth/jwt'
 
 export async function middleware(request: NextRequest) {
-    const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
     const url = request.nextUrl;
+    const token = request.cookies.get("token")?.value || '';
 
     if(token && 
         (
@@ -23,9 +22,9 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
     matcher: [
+        '/',
         '/signin',
         '/signup',
-        '/',
         '/extension',
         '/verify/:path*'
     ],

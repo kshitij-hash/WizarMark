@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { signIn } from 'next-auth/react';
 import {
     Form,
     FormField,
@@ -19,6 +18,8 @@ import { signInSchema } from '@/schemas/signInSchema';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import axios, { AxiosError } from 'axios';
+import { ApiResponse } from '@/types/ApiResponse';
 
 export default function SignInForm() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,21 +36,29 @@ export default function SignInForm() {
     const { toast } = useToast();
     const onSubmit = async (data: z.infer<typeof signInSchema>) => {
         setIsSubmitting(true);
-        const result = await signIn('credentials', {
-            redirect: false,
-            identifier: data.identifier,
-            password: data.password,
-        });
-        setIsSubmitting(false);
-        if (result?.error) {
+        try {
+            const repsonse = await axios.post<ApiResponse>('/api/signin', data);
+
             toast({
-                title: 'Login Failed',
-                description: 'Incorrect username or password',
-                variant: 'destructive',
-            });
-        }
-        if (result?.url) {
+                title: 'Sign in successful',
+                description: repsonse.data.message
+            })
+
             router.replace('/extension');
+            setIsSubmitting(false);
+        } catch (error) {
+            console.error("Error signing in: ", error);
+            const axiosError = error as AxiosError<ApiResponse>;
+
+            let errorMessage = axiosError.response?.data.message ??
+            ('An error occurred while signing in');
+
+            toast({
+                title: 'Sign in failed',
+                description: errorMessage,
+                variant: 'destructive'
+            })
+            setIsSubmitting(false);
         }
     };
 

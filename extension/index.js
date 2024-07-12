@@ -44,7 +44,6 @@ function fetchPageContent(tabId) {
   });
 }
 
-
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     const tab = await getCurrentTab();

@@ -3,7 +3,6 @@ import { Stylish } from "next/font/google"
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
-import AuthProvider from "@/context/AuthProvider";
 import Navbar from "@/components/navbar";
 import { Separator } from "@/components/ui/separator";
 
@@ -25,7 +24,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <AuthProvider>
         <body className={stylish.className}>
           <ThemeProvider
             attribute="class"
@@ -39,7 +37,6 @@ export default function RootLayout({
             <Toaster />
           </ThemeProvider>
         </body>
-      </AuthProvider>
     </html>
   );
 }
