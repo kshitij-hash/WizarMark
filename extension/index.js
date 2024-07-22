@@ -22,6 +22,7 @@ function getCurrentTab() {
 }
 
 function fetchPageContent(tabId) {
+  console.log(typeof (tabId))
   return new Promise((resolve, reject) => {
     chrome.scripting.executeScript(
       {
@@ -77,11 +78,8 @@ function checkIfAlreadyBookmarked(url, title, callback) {
   });
 }
 
-
-
 async function summarizeContent(content) {
   try {
-
     const response = await fetch('http://localhost:7070/api/ai/summarize', {
       method: 'POST',
       headers: {
@@ -103,8 +101,6 @@ async function summarizeContent(content) {
     return '';
   }
 }
-
-
 
 function addBookmark() {
   const url = document.getElementById("urlInput").value;
@@ -254,3 +250,26 @@ function removeTag(tag) {
 //   });
 // }
 // setInterval(checkLoginStatus, 5000);
+
+document.getElementById('loginForm').addEventListener('submit', (e) => {
+  console.log('login form submitted')
+  e.preventDefault()
+  const identifier = document.getElementById('identifier').value
+  const password = document.getElementById('password').value
+  fetch('https://wizarmark.vercel.app/api/signin', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ identifier, password }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data)
+      chrome.storage.local.set({ token: data.token });
+      console.log(chrome.storage.local.get('token'))
+      if (data.status === 'true') {
+        document.getElementById('wizarmark').style.display = 'block'
+      }
+    })
+})

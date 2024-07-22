@@ -46,3 +46,22 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 chrome.tabs.onActivated.addListener((activeInfo) => {
   updateIcon(activeInfo.tabId);
 });
+
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.action === "update_icon") {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const activeTab = tabs[0];
+      if (activeTab) {
+        updateIcon(activeTab.id);
+      }
+    });
+  }
+});
+
+chrome.cookies.get({ url: 'https://wizarmark.vercel.app', name: 'token' }, (cookie) => {
+  console.log(cookie)
+})
+
+chrome.cookies.onChanged.addListener((changeInfo) => {
+  console.log(changeInfo)
+})
