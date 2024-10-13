@@ -78,35 +78,35 @@ function checkIfAlreadyBookmarked(url, title, callback) {
   });
 }
 
-async function summarizeContent(content) {
-  try {
-    const response = await fetch('http://localhost:7070/api/ai/summarize', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ text: content }),
-    });
+// async function summarizeContent(content) {
+//   try {
+//     const response = await fetch('http://localhost:7070/api/ai/summarize', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ text: content }),
+//     });
 
 
-    if (response.ok) {
-      const data = await response.json();
-      return data.summary || '';
-    } else {
-      console.error('Error summarizing content:', response.statusText);
-      return '';
-    }
-  } catch (error) {
-    console.error('Error making summarize API call:', error);
-    return '';
-  }
-}
+//     if (response.ok) {
+//       const data = await response.json();
+//       return data.summary || '';
+//     } else {
+//       console.error('Error summarizing content:', response.statusText);
+//       return '';
+//     }
+//   } catch (error) {
+//     console.error('Error making summarize API call:', error);
+//     return '';
+//   }
+// }
 
 function addBookmark() {
   const url = document.getElementById("urlInput").value;
   const title = document.getElementById("title").value;
   const favicon = document.getElementById("favicon").value;
-  const content = JSON.parse(document.getElementById("contentHidden").value).content;
+  // const content = JSON.parse(document.getElementById("contentHidden").value).content;
 
   if (tags.length === 0 || !url || !title) {
     console.log("Missing required fields (tags, url, or title)");
@@ -119,8 +119,8 @@ function addBookmark() {
       return;
     } else {
 
-      const summary = await summarizeContent(content);
-      console.log("summary: ", summary);
+      // const summary = await summarizeContent(content);
+      // console.log("summary: ", summary);
 
       const bookmark = {
         url: url,
@@ -128,7 +128,7 @@ function addBookmark() {
         faviconUrl: favicon,
         dateAdded: Date.now(),
         tags: tags,
-        summary: summary,
+        // summary: summary,
       };
       chrome.storage.local.get({ bookmarks: [] }, (result) => {
         const bookmarks = result.bookmarks || [];
@@ -251,25 +251,25 @@ function removeTag(tag) {
 // }
 // setInterval(checkLoginStatus, 5000);
 
-document.getElementById('loginForm').addEventListener('submit', (e) => {
-  console.log('login form submitted')
-  e.preventDefault()
-  const identifier = document.getElementById('identifier').value
-  const password = document.getElementById('password').value
-  fetch('https://wizarmark.vercel.app/api/signin', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ identifier, password }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data)
-      chrome.storage.local.set({ token: data.token });
-      console.log(chrome.storage.local.get('token'))
-      if (data.status === 'true') {
-        document.getElementById('wizarmark').style.display = 'block'
-      }
-    })
-})
+// document.getElementById('loginForm').addEventListener('submit', (e) => {
+//   console.log('login form submitted')
+//   e.preventDefault()
+//   const identifier = document.getElementById('identifier').value
+//   const password = document.getElementById('password').value
+//   fetch('https://wizarmark.vercel.app/api/signin', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({ identifier, password }),
+//   })
+//     .then((res) => res.json())
+//     .then((data) => {
+//       console.log(data)
+//       chrome.storage.local.set({ token: data.token });
+//       console.log(chrome.storage.local.get('token'))
+//       if (data.status === 'true') {
+//         document.getElementById('wizarmark').style.display = 'block'
+//       }
+//     })
+// })
